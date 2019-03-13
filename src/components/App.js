@@ -1,25 +1,19 @@
 import React, { Component } from "react";
 import Artist from "./Artist";
 import Tracks from "./Tracks";
+import Search from "./Search";
 
 const URL_ADDRESS = "https://spotify-api-wrapper.appspot.com";
 
 class App extends Component {
-  state = { searchQuery: "", artistData: null, topTracks: [] };
+  state = { artistData: null, topTracks: [] };
 
-  updateSearchQuery = event => {
-    // console.log(event.target.value);
-    this.setState({ searchQuery: event.target.value });
-  };
-  handleKeyPress = event => {
-    if (event.key === "Enter") {
-      this.searchArtist();
-    }
-  };
-
-  searchArtist = () => {
-    // fetch artist data using searchQuery
-    fetch(`${URL_ADDRESS}/artist/${this.state.searchQuery}`)
+  componentDidMount() {
+    this.searchArtist("burna boy");
+  }
+  searchArtist = searchQuery => {
+    // fetch artist data using searchQuery gotten from search component
+    fetch(`${URL_ADDRESS}/artist/${searchQuery}`)
       .then(response => response.json())
       .then(res => {
         // check if the artist in searchQuery exist in the api
@@ -42,13 +36,7 @@ class App extends Component {
     return (
       <div>
         <h1>Musicaly</h1>
-        <input
-          type="text"
-          placeholder="Search for Artist"
-          onChange={this.updateSearchQuery}
-          onKeyPress={this.handleKeyPress}
-        />
-        <button onClick={this.searchArtist}>Search</button>
+        <Search searchArtist={this.searchArtist} />
         <Artist artist={artistData} />
         <Tracks tracks={topTracks} />
       </div>
