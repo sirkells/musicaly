@@ -24071,12 +24071,23 @@ function (_Component) {
     _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(App)).call.apply(_getPrototypeOf2, [this].concat(args)));
 
     _defineProperty(_assertThisInitialized(_this), "state", {
-      serachQuery: ""
+      searchQuery: ""
     });
 
     _defineProperty(_assertThisInitialized(_this), "updateSearchQuery", function (event) {
-      console.log(event.target.value);
+      // console.log(event.target.value);
+      _this.setState({
+        searchQuery: event.target.value
+      });
     });
+
+    _defineProperty(_assertThisInitialized(_this), "handleKeyPress", function (event) {
+      if (event.key === "Enter") {
+        _this.searchArtist();
+      }
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "searchArtist", function () {});
 
     return _this;
   }
@@ -24087,8 +24098,11 @@ function (_Component) {
       return _react.default.createElement("div", null, _react.default.createElement("h1", null, "Musicaly"), _react.default.createElement("input", {
         type: "text",
         placeholder: "Search for Artist",
-        onChange: this.updateSearchQuery
-      }), _react.default.createElement("button", null, "Search"));
+        onChange: this.updateSearchQuery,
+        onKeyPress: this.handleKeyPress
+      }), _react.default.createElement("button", {
+        onClick: this.searchArtist
+      }, "Search"));
     }
   }]);
 
@@ -24210,7 +24224,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55451" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58840" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
