@@ -24052,6 +24052,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+var URL_ADDRESS = "https://spotify-api-wrapper.appspot.com";
+
 var App =
 /*#__PURE__*/
 function (_Component) {
@@ -24071,7 +24073,9 @@ function (_Component) {
     _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(App)).call.apply(_getPrototypeOf2, [this].concat(args)));
 
     _defineProperty(_assertThisInitialized(_this), "state", {
-      searchQuery: ""
+      searchQuery: "",
+      artistData: null,
+      topTracks: []
     });
 
     _defineProperty(_assertThisInitialized(_this), "updateSearchQuery", function (event) {
@@ -24087,7 +24091,34 @@ function (_Component) {
       }
     });
 
-    _defineProperty(_assertThisInitialized(_this), "searchArtist", function () {});
+    _defineProperty(_assertThisInitialized(_this), "searchArtist", function () {
+      // fetch artist data using searchQuery
+      fetch("".concat(URL_ADDRESS, "/artist/").concat(_this.state.searchQuery)).then(function (response) {
+        return response.json();
+      }).then(function (res) {
+        // check if the artist in searchQuery exist in the api
+        if (res.artists.total > 0) {
+          var artistData = res.artists.items[0];
+
+          _this.setState({
+            artistData: artistData
+          }); // fetches top track of artist based on artist id
+
+
+          fetch("".concat(URL_ADDRESS, "/artist/").concat(artistData.id, "/top-tracks")).then(function (response) {
+            return response.json();
+          }).then(function (res) {
+            return _this.setState({
+              topTracks: res.tracks
+            });
+          }).catch(function (err) {
+            return alert(err.message);
+          });
+        }
+      }).catch(function (err) {
+        return alert(err.message);
+      });
+    });
 
     return _this;
   }
@@ -24095,6 +24126,7 @@ function (_Component) {
   _createClass(App, [{
     key: "render",
     value: function render() {
+      console.log("state:", this.state);
       return _react.default.createElement("div", null, _react.default.createElement("h1", null, "Musicaly"), _react.default.createElement("input", {
         type: "text",
         placeholder: "Search for Artist",
