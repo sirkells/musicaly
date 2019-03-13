@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Artist from "./Artist";
+import Tracks from "./Tracks";
 
 const URL_ADDRESS = "https://spotify-api-wrapper.appspot.com";
 
@@ -37,6 +38,7 @@ class App extends Component {
   };
   render() {
     console.log("state:", this.state);
+    const { artistData, topTracks } = this.state;
     return (
       <div>
         <h1>Musicaly</h1>
@@ -47,7 +49,8 @@ class App extends Component {
           onKeyPress={this.handleKeyPress}
         />
         <button onClick={this.searchArtist}>Search</button>
-        <Artist artist={this.state.artistData} />
+        <Artist artist={artistData} />
+        <Tracks tracks={topTracks} />
       </div>
     );
   }

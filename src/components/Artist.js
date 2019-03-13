@@ -9,7 +9,8 @@ const Artist = props => {
       <p>{followers.total} followers</p>
       <p>{genres.join(", ")}</p>
       <img
-        src={images[0].url}
+        //   images[0] && images[0].url handles no image data
+        src={images[0] && images[0].url}
         alt="artist-image"
         style={{
           height: 200,
