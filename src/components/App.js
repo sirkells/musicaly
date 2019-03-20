@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import Artist from "./Artist";
 import Tracks from "./Tracks";
 import Search from "./Search";
@@ -9,8 +10,19 @@ class App extends Component {
   state = { artistData: null, topTracks: [] };
 
   componentDidMount() {
+    // console.log("store:", this.props.store);
     this.searchArtist("burna boy");
   }
+  // updateSearchQuery = event => {
+  //   // console.log(event.target.value);
+  //   this.setState({ searchQuery: event.target.value });
+  // };
+  // handleKeyPress = event => {
+  //   if (event.key === "Enter") {
+  //     this.search();
+  //   }
+  // };
+
   searchArtist = searchQuery => {
     // fetch artist data using searchQuery gotten from search component
     fetch(`${URL_ADDRESS}/artist/${searchQuery}`)
@@ -33,9 +45,17 @@ class App extends Component {
   render() {
     console.log("state:", this.state);
     const { artistData, topTracks } = this.state;
+    // const { searchQuery, updateSearchQuery } = this.props;
     return (
       <div>
         <h1>Musicaly</h1>
+        {/* <input
+          type="text"
+          placeholder="Search for Artist"
+          onChange={updateSearchQuery}
+          onKeyPress={this.handleKeyPress}
+        />
+        <button onClick={this.search}>Search</button> */}
         <Search searchArtist={this.searchArtist} />
         <Artist artist={artistData} />
         <Tracks tracks={topTracks} />
