@@ -1,33 +1,24 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { setSearchTerm } from "../actions";
+import { setSearchTerm, getArtist } from "../actions";
 
 const mapStateToProps = state => {
   return {
-    searchQuery: state.searchQuery
+    searchQuery: state.changeSearchTerm.searchQuery
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
-    updateSearchQuery: event => dispatch(setSearchTerm(event.target.value))
+    updateSearchQuery: event => dispatch(setSearchTerm(event.target.value)),
+    getArtistData: searchQuery => dispatch(getArtist(searchQuery))
   };
 };
 class Search extends Component {
-  // state = { searchQuery: "" };
   search = () => {
-    const { searchArtist, searchQuery } = this.props;
-    // console.log(this.props);
-    searchArtist(searchQuery);
+    const { getArtistData, searchQuery } = this.props;
+    getArtistData(searchQuery);
   };
-  // searchArtist = () => {
-  //   console.log("search:", this.props);
-  //   this.props.searchArtist(this.props.store.searchQuery);
-  // };
-  // updateSearchQuery = event => {
-  //   // console.log(event.target.value);
-  //   this.props.store.updateSearchQuery();
-  //   this.setState({ searchQuery: event.target.value });
-  // };
+
   handleKeyPress = event => {
     if (event.key === "Enter") {
       this.search();
